@@ -1,5 +1,7 @@
 package edu.uncc.hw04.fragments;
 
+import static java.lang.Math.round;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
@@ -42,8 +44,6 @@ public class ViewDrinksFragment extends Fragment {
     private static final String ARG_DRINKLIST = "param_drinkList";
 
     // TODO: Rename and change types of parameters
-    private TextView label, size, percent, dateAdded;
-    private int iterator = 0;
     private ArrayList<Drink> drinkList = new ArrayList<>();
     private Drink drinkRemove;
     int orderType = -1;
@@ -86,23 +86,23 @@ public class ViewDrinksFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new ViewAdapter(drinkList);
-        recyclerView.setAdapter(adapter);
 
 
+
+        //Sorting by Alcohol percentage
         view.findViewById(R.id.atoz_Alcohol).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Collections.sort(drinkList, new Comparator<Drink>() {
                     @Override
                     public int compare(Drink d1, Drink d2) {
-                        return 0;
+                        return Double.compare(d1.getAlcoholPercentage(),d2.getAlcoholPercentage());
                     }
                 });
-
+                adapter.notifyDataSetChanged();
             }
         });
+
 
         view.findViewById(R.id.ztoa_Alcohol).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,21 +110,30 @@ public class ViewDrinksFragment extends Fragment {
                 Collections.sort(drinkList, new Comparator<Drink>() {
                     @Override
                     public int compare(Drink d1, Drink d2) {
-                        orderType = orderType*(-1);
-                        return orderType*d1.getAddedOn().compareTo(d2.getAddedOn());
+                        return orderType * Double.compare(d1.getAlcoholPercentage(),d2.getAlcoholPercentage());
                     }
                 });
                 adapter.notifyDataSetChanged();
-
             }
         });
 
+
+        //Sorting by Date
         view.findViewById(R.id.atoz_Date).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Collections.sort(drinkList, new Comparator<Drink>() {
+                    @Override
+                    public int compare(Drink d1, Drink d2) {
 
+                        return d1.getAddedOn().compareTo(d2.getAddedOn());
+                    }
+                });
+                adapter.notifyDataSetChanged();
             }
         });
+
+
 
         view.findViewById(R.id.ztoa_Date).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,22 +141,24 @@ public class ViewDrinksFragment extends Fragment {
                 Collections.sort(drinkList, new Comparator<Drink>() {
                     @Override
                     public int compare(Drink d1, Drink d2) {
-                        return d1.getAddedOn().compareTo(d2.getAddedOn());
+                        return orderType * d1.getAddedOn().compareTo(d2.getAddedOn());
                     }
                 });
                 adapter.notifyDataSetChanged();
-
             }
         });
 
+        adapter = new ViewAdapter(drinkList);
+        recyclerView.setAdapter(adapter);
 
+
+        //Click close
         view.findViewById(R.id.closeView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 vd.updatedDrinkslist(drinkList);
             }
         });
-
 
     }
 
@@ -170,13 +181,15 @@ public class ViewDrinksFragment extends Fragment {
         public void onBindViewHolder(@NonNull DrinksViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
             Drink drink = drinkList.get(position);
+
             DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm aa");
-            Date date = drinkList.get(position).getAddedOn();
-
+            Date date = drink.getAddedOn();
             holder.dateAdded.setText("Added " + dateFormat.format(date));
-            holder.alcohol_pc.setText(String.valueOf(drink.getAlcoholPercentage()));
 
-            holder.oz.setText(String.valueOf(drink.getDrinkSize()));
+
+            holder.alcohol_pc.setText(String.valueOf(drink.getAlcoholPercentage()));
+            holder.oz.setText(String.format("%.0f oz", drink.getDrinkSize()));
+
             holder.position = position;
             holder.drinkRemove = drinkRemove;
 

@@ -110,7 +110,7 @@ public class AddDrinkFragment extends Fragment {
 
 
                 date = new Date();
-                Drink newDrink = new Drink(date, decimal, ounces);
+                Drink newDrink = new Drink(date, ounces, decimal);
                 dr.setDrink(newDrink);
                 getActivity().getSupportFragmentManager().popBackStack();
             }
