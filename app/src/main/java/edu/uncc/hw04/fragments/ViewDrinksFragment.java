@@ -17,7 +17,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 
 import edu.uncc.hw04.R;
 import edu.uncc.hw04.databinding.FragmentViewDrinksBinding;
@@ -41,6 +46,7 @@ public class ViewDrinksFragment extends Fragment {
     private int iterator = 0;
     private ArrayList<Drink> drinkList = new ArrayList<>();
     private Drink drinkRemove;
+    int orderType = -1;
 
     public ViewDrinksFragment() {
         // Required empty public constructor
@@ -76,12 +82,12 @@ public class ViewDrinksFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         recyclerView = view.findViewById(R.id.recycleView);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(view.getContext());
+        layoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(layoutManager);
         adapter = new ViewAdapter(drinkList);
+        recyclerView.setAdapter(adapter);
 
         view.findViewById(R.id.atoz_Alcohol).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,27 +129,28 @@ public class ViewDrinksFragment extends Fragment {
     }
 
     public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.DrinksViewHolder>{
-        ArrayList<Drink> drinkListAdapter;
+        //ArrayList<Drink> drinkListAdapter = drinkList;
         public ViewAdapter(ArrayList<Drink> data){
-            this.drinkListAdapter = data;
+            drinkList = data;
         }
 
         @NonNull
         @Override
         public DrinksViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.drinkdetails,parent,false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.drinkdetails, parent,false);
 
             DrinksViewHolder drinksViewHolder = new DrinksViewHolder(view);
-
-
 
             return drinksViewHolder;
         }
 
         @Override
         public void onBindViewHolder(@NonNull DrinksViewHolder holder, @SuppressLint("RecyclerView") int position) {
-            Drink drink = drinkListAdapter.get(position);
-            holder.dateAdded.setText(drink.getAddedOn().toString());
+            Drink drink = drinkList.get(position);
+
+            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm aa");
+            Date date = drinkList.get(position).getAddedOn();
+            holder.dateAdded.setText("Added " + dateFormat.format(date));
             holder.alcohol_pc.setText(String.valueOf(drink.getAlcoholPercentage()));
             holder.oz.setText(String.valueOf(drink.getDrinkSize()));
             holder.position = position;
@@ -153,7 +160,7 @@ public class ViewDrinksFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return this.drinkListAdapter.size();
+            return drinkList.size();
         }
 
         public class DrinksViewHolder extends RecyclerView.ViewHolder{
@@ -175,20 +182,20 @@ public class ViewDrinksFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
 
-                        drinkRemove = drinkListAdapter.get(position);
-                        drinkListAdapter.remove(position);
+                        drinkRemove = drinkList.get(position);
+                        drinkList.remove(position);
                         vd.deletedDrink(drinkRemove);
+                        adapter.notifyDataSetChanged();
 
                     }
                 });
 
             }
         }
-
     }
 
-    ViewDrinksInterface vd;
 
+    ViewDrinksInterface vd;
     public interface ViewDrinksInterface {
         void deletedDrink(Drink drinkDeleted);
         void updatedDrinklists(ArrayList<Drink> updatedDrinksList);
