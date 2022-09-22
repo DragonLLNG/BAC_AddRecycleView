@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">HW04</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    //Text views
+
+    <string name="weight_label">Weight:</string>
+    <string name="weight_output">N/A</string>
+    <string name="weight_lbs">Weight (lbs):</string>
+    <string name="drink_label">#Drink:</string>
+    <string name="bac_label">BAC Level:</string>
+    <string name="status_label">Your status</string>
+    <string name="gender">Gender:</string>
+    <string name="size">Drink Size:</string>
+    <string name="alcohol_label">Alcohol %</string>
+    <string name="alcohol_percent">0%</string>
+    <string name="num_drink">0</string>
+    <string name="level_zero">0.000</string>
+    <string name="status">You\'re Safe</string>
+    <string name="hint_weight">Enter weight</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="heading1">BAC Calculator</string>
+    <string name="bac_txt">BAC Level</string>
+    <string name="drink_txt">Drink Size</string>
+    <string name="heading4">View Drinks</string>
+    <string name="numberOfDrinks">Drink # out of N</string>
+
+
+    //Edit Text
+    <string name="weight_input"></string>
+
+    //Buttons
+    <string name="set">Set</string>
+    <string name="view_drink">View Drinks</string>
+    <string name="add_drink">Add Drink</string>
+    <string name="reset">Reset</string>
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+
+    //Radio
+    <string name="one_oz">1 oz</string>
+    <string name="five_oz">5 oz</string>
+    <string name="twelve_oz">12 oz</string>
+    <string name="heading2">Set Weight/Gender</string>
+    <string name="heading3">Add Drink</string>
+    <string name="alcohol_percent_view">x% Alcohol</string>
+    <string name="date">Added mm/dd/yyyy 00:00 PM</string>
+    <string name="sortAlcohol">Sort by Alcohol %:</string>
+    <string name="sortDate">Sort by Date Added:</string>
+    <string name="dateAdded">Added MM/dd/yyyy hh:mm aa</string>
+    <string name="deco">Alcohol</string>
+
+
+</resources>
