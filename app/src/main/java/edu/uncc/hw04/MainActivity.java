@@ -98,15 +98,18 @@ public class MainActivity extends AppCompatActivity implements BACFragment.BAC_i
     @Override
     public void deletedDrink(Drink drinkDeleted) {
         drinksList.remove(drinkDeleted);
-        getSupportFragmentManager().beginTransaction()
+
+        if (drinksList.size()==0){
+            getSupportFragmentManager().beginTransaction()
                 .replace(R.id.containerView, BACFragment.newInstance(user,drinksList),"BACFragment")
                 .commit();
+        }
 
 
     }
 
     @Override
-    public void updatedDrinklists(ArrayList<Drink> updatedDrinksList) {
+    public void updatedDrinkslist(ArrayList<Drink> updatedDrinksList) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.containerView, BACFragment.newInstance(user, updatedDrinksList),"BACFragment")
                 .commit();

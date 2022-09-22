@@ -9,7 +9,7 @@
         <entry key="app/src/main/res/layout/fragment_add_drink.xml" value="0.328125" />
         <entry key="app/src/main/res/layout/fragment_bac.xml" value="0.328125" />
         <entry key="app/src/main/res/layout/fragment_set_profile.xml" value="0.328125" />
-        <entry key="app/src/main/res/layout/fragment_view_drinks.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_view_drinks.xml" value="0.25" />
       </map>
     </option>
   </component>

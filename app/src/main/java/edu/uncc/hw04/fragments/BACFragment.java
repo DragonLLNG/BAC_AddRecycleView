@@ -162,7 +162,7 @@ public class BACFragment extends Fragment {
             drawable.setColor(Color.RED);
 
 
-            Toast overLimit = Toast.makeText(getActivity(), "No more drinks for you!", Toast.LENGTH_LONG);
+            Toast overLimit = Toast.makeText(getActivity(), "No more drinks for you!", Toast.LENGTH_SHORT);
             overLimit.setGravity(Gravity.CENTER, 0, 0);
             overLimit.show();
         }

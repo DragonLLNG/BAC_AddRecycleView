@@ -89,9 +89,17 @@ public class ViewDrinksFragment extends Fragment {
         adapter = new ViewAdapter(drinkList);
         recyclerView.setAdapter(adapter);
 
+
         view.findViewById(R.id.atoz_Alcohol).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Collections.sort(drinkList, new Comparator<Drink>() {
+                    @Override
+                    public int compare(Drink d1, Drink d2) {
+                        return 0;
+                    }
+                });
 
             }
         });
@@ -99,6 +107,14 @@ public class ViewDrinksFragment extends Fragment {
         view.findViewById(R.id.ztoa_Alcohol).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Collections.sort(drinkList, new Comparator<Drink>() {
+                    @Override
+                    public int compare(Drink d1, Drink d2) {
+                        orderType = orderType*(-1);
+                        return orderType*d1.getAddedOn().compareTo(d2.getAddedOn());
+                    }
+                });
+                adapter.notifyDataSetChanged();
 
             }
         });
@@ -113,6 +129,13 @@ public class ViewDrinksFragment extends Fragment {
         view.findViewById(R.id.ztoa_Date).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Collections.sort(drinkList, new Comparator<Drink>() {
+                    @Override
+                    public int compare(Drink d1, Drink d2) {
+                        return d1.getAddedOn().compareTo(d2.getAddedOn());
+                    }
+                });
+                adapter.notifyDataSetChanged();
 
             }
         });
@@ -121,7 +144,7 @@ public class ViewDrinksFragment extends Fragment {
         view.findViewById(R.id.closeView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                vd.updatedDrinklists(drinkList);
+                vd.updatedDrinkslist(drinkList);
             }
         });
 
@@ -129,7 +152,6 @@ public class ViewDrinksFragment extends Fragment {
     }
 
     public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.DrinksViewHolder>{
-        //ArrayList<Drink> drinkListAdapter = drinkList;
         public ViewAdapter(ArrayList<Drink> data){
             drinkList = data;
         }
@@ -146,12 +168,14 @@ public class ViewDrinksFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull DrinksViewHolder holder, @SuppressLint("RecyclerView") int position) {
-            Drink drink = drinkList.get(position);
 
+            Drink drink = drinkList.get(position);
             DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm aa");
             Date date = drinkList.get(position).getAddedOn();
+
             holder.dateAdded.setText("Added " + dateFormat.format(date));
             holder.alcohol_pc.setText(String.valueOf(drink.getAlcoholPercentage()));
+
             holder.oz.setText(String.valueOf(drink.getDrinkSize()));
             holder.position = position;
             holder.drinkRemove = drinkRemove;
@@ -184,8 +208,8 @@ public class ViewDrinksFragment extends Fragment {
 
                         drinkRemove = drinkList.get(position);
                         drinkList.remove(position);
-                        vd.deletedDrink(drinkRemove);
                         adapter.notifyDataSetChanged();
+                        vd.deletedDrink(drinkRemove);
 
                     }
                 });
@@ -198,7 +222,7 @@ public class ViewDrinksFragment extends Fragment {
     ViewDrinksInterface vd;
     public interface ViewDrinksInterface {
         void deletedDrink(Drink drinkDeleted);
-        void updatedDrinklists(ArrayList<Drink> updatedDrinksList);
+        void updatedDrinkslist(ArrayList<Drink> updatedDrinksList);
     }
 
     @Override

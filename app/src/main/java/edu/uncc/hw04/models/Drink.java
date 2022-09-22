@@ -19,6 +19,23 @@ public class Drink implements Parcelable {
         this.alcoholPercentage = alcoholPercentage;
     }
 
+    protected Drink(Parcel in) {
+        drinkSize = in.readDouble();
+        alcoholPercentage = in.readDouble();
+    }
+
+    public static final Creator<Drink> CREATOR = new Creator<Drink>() {
+        @Override
+        public Drink createFromParcel(Parcel in) {
+            return new Drink(in);
+        }
+
+        @Override
+        public Drink[] newArray(int size) {
+            return new Drink[size];
+        }
+    };
+
     @Override
     public String toString() {
         return "Drink{" +
@@ -59,6 +76,7 @@ public class Drink implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeDouble(drinkSize);
+        dest.writeDouble(alcoholPercentage);
     }
 }
